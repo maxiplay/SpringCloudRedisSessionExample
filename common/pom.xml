@@ -3,14 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.worldline.springcloudarchetype</groupId>
+		<groupId>com.springcloud.sessionexample</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>common</artifactId>
-	<groupId>com.worldline.springcloudarchetype</groupId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>common</name>

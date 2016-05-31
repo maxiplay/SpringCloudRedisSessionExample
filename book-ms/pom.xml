@@ -4,15 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.worldline.springcloudarchetype</groupId>
+		<groupId>com.springcloud.sessionexample</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
 	<artifactId>book-ms</artifactId>
-	<groupId>com.worldline.springcloudarchetype</groupId>
-	<version>0.0.1-SNAPSHOT</version>
+
 
 
 	<name>book-ms</name>

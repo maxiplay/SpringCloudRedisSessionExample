@@ -3,14 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.worldline.springcloudarchetype</groupId>
+		<groupId>com.springcloud.sessionexample</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<packaging>jar</packaging>
 	<artifactId>registry-server</artifactId>
-	<groupId>com.worldline.springcloudarchetype</groupId>
-	<version>0.0.1-SNAPSHOT</version>
+
 
 	<name>registry-server</name>
 	<description>registry-server</description>
