@@ -7,54 +7,17 @@ Spring cloud : Archetype
 |may-2016|1.0|B. Coulaud|Init
 |========================================
 
-IMPORTANT: The using Spring Cloud version for this project is *Brixton.RC1*
+IMPORTANT: The using Spring Cloud version for this project is *Brixton.M4*
 
 Introduction
 ------------
 
-This project is a simple example of Spring Cloud implementation.
-It has been created by Maxime Dhalluin and Baptiste Coulaud during the labs.
-
-Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state).
-
-The goal is to propose a Spring Cloud base for Worldline developer who want to start on this stack and create micro service.
-
-In this documentation, you will find how to use this project, which configuration you have to set.
+This project is a simple example of Spring Cloud implementation using Redis shared session
 
 *Enjoy it* and contact us if you need help !!!
 
 Maven configuration
 -------------------
-
-Authentication
-~~~~~~~~~~~~~~
-
-In this example, you have two means of authentication:
-
-- JSON Web Tokens (JWT)
-- Redis session
-
-In order to choose one, you have to comment / uncomment the java module in link:https://gitlab.kazan.priv.atos.fr/springcloudworldlinearchetype/springcloudworldlinearchetype-gitlab-1/blob/master/common/pom.xml[pom.xml] file ("common" project).
-
-Add this module to use JWT: 
-
------------------------------------------------------------
-<dependency>
-	<groupId>com.worldline.springcloudarchetype</groupId>
-	<artifactId>auth-jwt-based</artifactId>
-	<version>${auth-jwt-based-version}</version>
-</dependency>
------------------------------------------------------------
-
-or this one for Redis session:
-
------------------------------------------------------------
-<dependency>
-	<groupId>com.worldline.springcloudarchetype</groupId>
-	<artifactId>auth-redis-based</artifactId>
-	<version>${auth-redis-based-version}</version>
-</dependency>
------------------------------------------------------------
 
 Getting started
 ---------------
@@ -67,11 +30,11 @@ Install the following tools in order to run the project.
 - link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK8]
 - link:https://maven.apache.org/download.cgi[MAVEN]
 - link:https://www.mongodb.com/download-center?jmp=nav#community[MONGODB]
-- link:https://github.com/MSOpenTech/redis/releases[REDIS (optionnal, if you use the module auth-redis-based)]
+- link:https://github.com/MSOpenTech/redis/releases[REDIS]
 
 === Get the project :
 
-git clone https://gitlab.kazan.priv.atos.fr/springcloudworldlinearchetype/springcloudworldlinearchetype-gitlab-1
+git clone https://github.com/maxiplay/SpringCloudRedisSessionExample
 
 === Go to the project root folder and :
 
@@ -79,10 +42,8 @@ Install the parent project
 ----
 mvn install -f parent-project/
 ----
-Following your authentication choice (JWT token or Redis shared sessions), build the dependency
+Build the authentication dependency
 ----
-mvn install -f auth-jwt-based/
-
 mvn install -f auth-redis-based/
 ----
 Install the micro-service common dependency
@@ -101,119 +62,16 @@ Build and start the zuul proxy
 ----
 mvn install -f gateway/ && java -jar gateway/target/gateway-0.0.1-SNAPSHOT.jar
 ----
-Build and start the library webapp example
-----
-mvn install -f library-webapp/ && java -jar library-webapp/target/library-webapp-0.0.1-SNAPSHOT.jar
-----
 
 === Go to the project root folder and inject data into database :
 ----
 mongoimport --db test --collection docs --file resources/datas/book.json
 mongoimport --db test --collection docs --file resources/datas/user.json
 ----
-=== Open you browser and navigate to http://localhost:7080/library +
+=== Open you browser and navigate to http://localhost:7080 +
 
-Now you have a micro-service architecture with a registry server (registry-server), a Zuul proxy (gateway), a micro-service example (book-ms) and a webapp (library-webapp). +
+Now you have a micro-service architecture with a registry server (registry-server), a Zuul proxy (gateway), a micro-service example (book-ms). +
 
-The library-webapp is able to list books from the book-ms microservice and to provide a UI in order to authenticate to the platform.
+The webapp contained in the gateway is able to list books from the book-ms microservice and to provide a UI in order to authenticate to the platform.
 
-Architecture
-------------
-
-The architecture is based on Spring Cloud stack which contains a lot of components to make easier the implementation of a micro service project:
-
-image::https://gitlab.kazan.priv.atos.fr/springcloudworldlinearchetype/springcloudworldlinearchetype-gitlab-1/raw/master/resources/documentation/springcloud.jpg[Spring cloud,align="center"]
-
-
-The following scheme describes the architecture of this application:
-
-image::https://gitlab.kazan.priv.atos.fr/springcloudworldlinearchetype/springcloudworldlinearchetype-gitlab-1/raw/master/resources/documentation/architecture.jpg[Architecture,align="center"]
-
-Each input request is process by the Zuul server.
-Zuul asks to Eureka the IP of the targeted micro service and redirects the request to it.
-
-In our case, the authentication is managed by Zuul which checks if the authentication is valid before calling the micro service.
-
-Eureka
-------
-
-Versioning
-~~~~~~~~~~
-
-The example is able to manage the deployment of the same service in different version by using eureka metadata.
-
-To do that, you have to define the version of your deployed service in the "application.properties" file:
-
----------------------------------------
-eureka.instance.metadataMap.version=1.1
----------------------------------------
-
-Then, you have to add the needed version into your header of the http request:
-
-------------
-version: 1.1
-------------
-
-CAUTION: If the version is not deployed, the request will fail.
-
-Documentation
--------------
-
-Swagger: Generated documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The documentation is generated during the build.
-To build it, you can execute the following maven command on the "book-ms" project:
-
------------
-mvn install
------------
-
-The documentation is generated into the "target" folder in HTML and PDF version.
-
-Swagger: Online documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can have access to the online documentation and try the API thanks to Swagger.
-
-After you started the different components (registry, gateway and book services), you can go to link:http://localhost:7080/swagger-ui.html[/swagger-ui.html]
-
-Monitoring
-----------
-
-Java melody
-~~~~~~~~~~~
-
-You can easily have access to the monitoring of this application by going on the following link:http://localhost:7080/monitoring[url].
-
-We used link:https://github.com/javamelody/javamelody/wiki[java melody], an open source project uses to monitor J2EE application.
-
-For more information about this tools, you can read the github documentation.
-
-Jenkins
--------
-
-For each project, Jenkins is used to build and release your project.
-In micro service architecture, it can be complicated because each service can be released independantly of each other.
-
-To avoid creating one jenkins job by micro service, we created two jobs with the following system:
-
-- The first one is used to build one service and need parameters
-* Branch (master)
-* Project name (registry, gateway, book-ms ...)
-- The second one is used to schedule the other jenkins job for each service
-
-With this implementation, we are able to build our micro services with only two jenkins jobs.
-
-You can find jenkins jobs at the following adresses:
-
-- link:https://kazan.priv.atos.fr/jenkins/4/job/springcloudworldlinearchetype-ci-1[Build]
-- link:https://kazan.priv.atos.fr/jenkins/4/job/springcloudworldlinearchetype-ci-2[Scheduler]
-
-Utils
------
-
-You can find some utils link on this part:
-
-- link:http://projects.spring.io/spring-cloud/[Spring Cloud]
-- link:https://gitlab.kazan.priv.atos.fr/springcloudworldlinearchetype/springcloudworldlinearchetype-gitlab-1/tree/master/resources/documentation/Presentation_25-03-16/[Presentation support]
+IMPORTANT: If Redis shared session works fine, you should have the list of books displayed. If not, verify the ajax request to get book (401 error if Redis shared session does not work)

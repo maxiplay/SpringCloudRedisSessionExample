@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud-version>Brixton.M4</spring-cloud-version>
+		<spring-cloud-version>Brixton.RELEASE</spring-cloud-version>
 		<maven-compiler-plugin-version>2.3.1</maven-compiler-plugin-version>
 		<java-melody-version>1.57.0</java-melody-version>
 		<asciidoctor-plugin-version>1.5.3</asciidoctor-plugin-version>
