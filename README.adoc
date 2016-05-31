@@ -1,10 +1,9 @@
-Spring cloud : Archetype
-========================
+Spring cloud Redis Session Example
+==================================
 
 |========================================
 |Date|Version|Author|Comment
 |may-2016|1.0|M. Dhalluin|Init
-|may-2016|1.0|B. Coulaud|Init
 |========================================
 
 IMPORTANT: The using Spring Cloud version for this project is *Brixton.M4*
@@ -14,10 +13,7 @@ Introduction
 
 This project is a simple example of Spring Cloud implementation using Redis shared session
 
-*Enjoy it* and contact us if you need help !!!
-
-Maven configuration
--------------------
+*Enjoy it*
 
 Getting started
 ---------------
@@ -72,6 +68,12 @@ mongoimport --db test --collection docs --file resources/datas/user.json
 
 Now you have a micro-service architecture with a registry server (registry-server), a Zuul proxy (gateway), a micro-service example (book-ms). +
 
-The webapp contained in the gateway is able to list books from the book-ms microservice and to provide a UI in order to authenticate to the platform.
+Authenticate with the right top button and type
+ 
+----
+login: max3, password : maxmax
+----
+
+The webapp contained in the gateway is able to list books from the book-ms microservice clicking to the link "My Books"
 
 IMPORTANT: If Redis shared session works fine, you should have the list of books displayed. If not, verify the ajax request to get book (401 error if Redis shared session does not work)
