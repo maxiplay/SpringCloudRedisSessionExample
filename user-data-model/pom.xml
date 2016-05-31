@@ -8,6 +8,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>user-data-model</artifactId>
 	<packaging>jar</packaging>
 

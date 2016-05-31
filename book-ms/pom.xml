@@ -9,6 +9,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<artifactId>book-ms</artifactId>
 
@@ -28,12 +30,12 @@
 	<dependencies>
 		<!-- Common -->
 		<dependency>
-			<groupId>com.worldline.springcloudarchetype</groupId>
+			<groupId>com.springcloud.sessionexample</groupId>
 			<artifactId>common</artifactId>
 			<version>${common-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.worldline.springcloudarchetype</groupId>
+			<groupId>com.springcloud.sessionexample</groupId>
 			<artifactId>common</artifactId>
 			<version>${common-version}</version>
 			<type>test-jar</type>

@@ -8,6 +8,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>auth-redis-based</artifactId>
 	<packaging>jar</packaging>
 
@@ -24,13 +26,13 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
 		</dependency>
-		
+
 		<!-- Redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-redis</artifactId>
 		</dependency>
-		
+
 		<!-- Spring security -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -39,7 +41,7 @@
 
 		<!-- User data model -->
 		<dependency>
-			<groupId>com.worldline.springcloudarchetype</groupId>
+			<groupId>com.springcloud.sessionexample</groupId>
 			<artifactId>user-data-model</artifactId>
 			<version>${user-data-version}</version>
 		</dependency>

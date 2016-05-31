@@ -8,6 +8,9 @@
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
+		<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>gateway</artifactId>
 	<packaging>jar</packaging>
 
@@ -43,7 +46,7 @@
 
 		<!-- Common version -->
 		<dependency>
-			<groupId>com.worldline.springcloudarchetype</groupId>
+			<groupId>com.springcloud.sessionexample</groupId>
 			<artifactId>common</artifactId>
 			<version>${common-version}</version>
 		</dependency>
@@ -54,13 +57,6 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swagger-ui-version}</version>
 		</dependency>
-
-		<!-- Protocol-http2-based -->
-		<!-- <dependency> -->
-		<!-- <groupId>com.worldline.springcloudarchetype</groupId> -->
-		<!-- <artifactId>protocol-http2-based</artifactId> -->
-		<!-- <version>${protocol-http2-based-version}</version> -->
-		<!-- </dependency> -->
 
 	</dependencies>
 	

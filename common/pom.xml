@@ -8,6 +8,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>common</artifactId>
 	<packaging>jar</packaging>
 
@@ -45,16 +47,12 @@
 
 
 		<!-- Redis auth -->
-		 <dependency> <groupId>com.worldline.springcloudarchetype</groupId> 
-			<artifactId>auth-redis-based</artifactId> <version>${auth-redis-based-version}</version> 
-			</dependency> 
+		<dependency>
+			<groupId>com.springcloud.sessionexample</groupId>
+			<artifactId>auth-redis-based</artifactId>
+			<version>${auth-redis-based-version}</version>
+		</dependency>
 
-		<!-- JWT auth -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.worldline.springcloudarchetype</groupId> -->
-<!-- 			<artifactId>auth-jwt-based</artifactId> -->
-<!-- 			<version>${auth-jwt-based-version}</version> -->
-<!-- 		</dependency> -->
 
 		<!-- Swagger -->
 		<dependency>

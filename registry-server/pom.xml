@@ -9,7 +9,8 @@
 	</parent>
 	<packaging>jar</packaging>
 	<artifactId>registry-server</artifactId>
-
+	<groupId>com.springcloud.sessionexample</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name>registry-server</name>
 	<description>registry-server</description>

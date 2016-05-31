@@ -13,9 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.worldline.springcloudarchetype.userdatamodel.model.Right;
-import com.worldline.springcloudarchetype.userdatamodel.model.User;
-import com.worldline.springcloudarchetype.userdatamodel.repository.UserRepository;
+import com.springcloud.sessionexample.userdatamodel.model.Right;
+import com.springcloud.sessionexample.userdatamodel.model.User;
+import com.springcloud.sessionexample.userdatamodel.repository.UserRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

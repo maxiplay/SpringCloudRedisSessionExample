@@ -27,13 +27,13 @@ public class SwaggerConfig {
 				.useDefaultResponseMessages(false)
 				.select()
 				.apis(RequestHandlerSelectors
-						.basePackage("com.worldline.springcloudworldlinearchetype"))
+						.basePackage("com.springcloud.sessionexample"))
 				.paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("Demo APIs")
-				.description("APIs for Demo").contact("Worldline")
+				.description("APIs for Demo").contact("sessionexample")
 				.version("1.0").build();
 	}
 
