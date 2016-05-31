@@ -1,0 +1,22 @@
+{
+  "name": "write",
+  "authors": [
+    "Maxime Dhalluin <maxime.dhalluin@gmail.com>"
+  ],
+  "description": "write",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "iron-elements": "PolymerElements/iron-Elements#~1.0.6",
+    "paper-elements": "PolymerElements/paper-Elements#~1.0.6",
+    "neon-elements": "PolymerElements/neon-Elements#~1.0.0",
+    "platinum-elements": "PolymerElements/platinum-Elements#~1.2.0",
+    "polymer": "Polymer/polymer#^1.2.0",
+    "page": "page.js#~1.6.4",
+    "vaadin-grid": "~1.0.0",
+    "date-util": "*",
+    "paper-datatable": "~0.9.8",
+  }
+}

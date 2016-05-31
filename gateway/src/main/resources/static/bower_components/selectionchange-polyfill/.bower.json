@@ -1,0 +1,13 @@
+{
+  "name": "selectionchange-polyfill",
+  "homepage": "https://github.com/2is10/selectionchange-polyfill",
+  "_release": "9191686def",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9191686def31cd1fb6df37cd38237ae56d2cf2b2"
+  },
+  "_source": "https://github.com/2is10/selectionchange-polyfill.git",
+  "_target": "*",
+  "_originalSource": "2is10/selectionchange-polyfill"
+}

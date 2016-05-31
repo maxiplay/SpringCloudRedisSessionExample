@@ -1,0 +1,129 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<dom-module id="connect-dialog">
+
+    <style>
+		#connectDialog {
+			width: 300px;
+			height: 400px;
+		}
+
+		paper-dialog {
+
+			text-align: center;
+		}
+
+		.hidden {
+
+			display: none
+		}
+
+		#error {
+
+			color: var(--google-red-500)
+		}
+
+		h2 {
+
+			padding-bottom: 20px
+		}
+
+		/*#facebookLink{
+
+		 padding : 0;
+		 }*/
+
+    </style>
+
+    <template>
+
+        <paper-dialog id="connectDialog">
+            <div>
+                <h2>Connexion</h2>
+
+                <!--<a id="facebookLink" href="/login/facebook"> <iron-image height="50" width="200" sizing="cover"  src="/img/fbconnect.png" ></iron-image> </a>
+
+                <a href="/login/github"> <iron-image height="50" width="200" sizing="cover" src="/img/github-banner.png" ></iron-image> </a>-->
+
+                <iron-ajax id="ajaxLogin" url="/login" method="POST" body ="{{loginBody}}" content-type="application/x-www-form-urlencoded" loading="{{loading}}" handle-as="json" on-response="handleResponse" on-error="handleError" debounce-duration="300" ></iron-ajax>
+
+                <paper-input  name='username' label="username" value="{{username}}"></paper-input>
+                <paper-input  name='password' label="password" type="password" value="{{password}}"></paper-input>
+
+                <template is="dom-if" if="{{loginError}}">
+                    <span id="error" >Username or password error</span>
+
+                </template>
+
+
+                <p>
+                    <paper-button  name="submit" raised on-click="submit2">
+                        Login
+                    </paper-button>
+                </p>
+
+            </div>
+        </paper-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "connect-dialog",
+            
+            open : function() {
+
+                this.$$("#connectDialog").open();
+            },
+
+            getXsrfToken : function() {
+
+                return document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+            },
+
+            submit2 : function() {
+
+                this.loginBody = {
+
+                    username : this.username,
+                    password : this.password
+                };
+
+                this.$.ajaxLogin.generateRequest();
+            },
+
+            submit : function() {
+
+                this.$.authForm.submit();
+            },
+
+            handleResponse : function(e, request) {
+                var token = request.xhr.getResponseHeader('x-auth-token');
+                if (token) {
+                	console.log(token);
+                	localStorage.setItem('jwtToken', token);
+                }
+                location.reload();
+            },
+            
+            handleError : function(error) {
+
+                if (error) {
+
+                    console.log(error);
+
+                } else {
+
+                    console.log("redirect");
+                }
+
+            }
+
+            
+        });
+    </script>
+
+</dom-module>

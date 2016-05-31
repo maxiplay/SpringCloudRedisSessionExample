@@ -1,0 +1,14 @@
+{
+  "name": "undo",
+  "homepage": "https://github.com/jzaefferer/undo",
+  "version": "0.2.0",
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.0",
+    "commit": "33f6ec815fdc86fbe8b4be0a9e76b2b54fb6915b"
+  },
+  "_source": "https://github.com/jzaefferer/undo.git",
+  "_target": "*",
+  "_originalSource": "jzaefferer/undo"
+}

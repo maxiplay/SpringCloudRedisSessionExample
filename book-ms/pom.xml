@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.worldline.springcloudarchetype</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>book-ms</artifactId>
+	<groupId>com.worldline.springcloudarchetype</groupId>
+	<version>0.0.1-SNAPSHOT</version>
+
+
+	<name>book-ms</name>
+	<description>book-ms server</description>
+
+	<properties>
+		<common-version>0.0.1-SNAPSHOT</common-version>
+		<json-path-version>2.2.0</json-path-version>
+		<fongo-version>1.5.8</fongo-version>
+		<spring-security-test-version>4.0.1.RELEASE</spring-security-test-version>
+		<swagger-docs-version>2.4.0</swagger-docs-version>
+	</properties>
+
+	<dependencies>
+		<!-- Common -->
+		<dependency>
+			<groupId>com.worldline.springcloudarchetype</groupId>
+			<artifactId>common</artifactId>
+			<version>${common-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.worldline.springcloudarchetype</groupId>
+			<artifactId>common</artifactId>
+			<version>${common-version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+			<version>${json-path-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.fakemongo</groupId>
+			<artifactId>fongo</artifactId>
+			<version>${fongo-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${spring-security-test-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-staticdocs</artifactId>
+			<scope>test</scope>
+			<version>${swagger-docs-version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Spring boot maven plugin -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Ascii doc -->
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

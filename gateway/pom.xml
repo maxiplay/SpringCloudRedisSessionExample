@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.worldline.springcloudarchetype</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>gateway</artifactId>
+	<groupId>com.worldline.springcloudarchetype</groupId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>gateway</name>
+	<description>gateway server</description>
+
+	<properties>
+		<common-version>0.0.1-SNAPSHOT</common-version>
+		<swagger-ui-version>2.4.0</swagger-ui-version>
+		<protocol-http2-based-version>0.0.1-SNAPSHOT</protocol-http2-based-version>
+		<ribbon-version>2.0.0</ribbon-version>
+	</properties>
+
+	<dependencies>
+		<!-- Eureka client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+
+		<!-- Zuul server -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zuul</artifactId>
+		</dependency>
+		
+		<!-- Ribbon filter -->
+		<dependency>
+			<groupId>io.jmnarloch</groupId>
+			<artifactId>ribbon-discovery-filter-spring-cloud-starter</artifactId>
+			<version>${ribbon-version}</version>
+		</dependency>
+
+		<!-- Common version -->
+		<dependency>
+			<groupId>com.worldline.springcloudarchetype</groupId>
+			<artifactId>common</artifactId>
+			<version>${common-version}</version>
+		</dependency>
+
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger-ui-version}</version>
+		</dependency>
+
+		<!-- Protocol-http2-based -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.worldline.springcloudarchetype</groupId> -->
+		<!-- <artifactId>protocol-http2-based</artifactId> -->
+		<!-- <version>${protocol-http2-based-version}</version> -->
+		<!-- </dependency> -->
+
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<!-- Spring boot maven plugin -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

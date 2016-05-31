@@ -1,0 +1,163 @@
+<script src="../undo/undo.js"></script>
+<script>
+	UndoMgrBehavior = {
+		properties: {
+			canUndo: {
+				type: Boolean,
+				value: false,
+				readOnly: true,
+				notify: true
+			},
+			canRedo: {
+				type: Boolean,
+				value: false,
+				readOnly: true,
+				notify: true
+			},
+			stack: {
+				type: Object,
+				value: function () {
+					return new Undo.Stack();
+				},
+				readOnly: true
+			},
+			target: {
+				type: Object,
+				value: function () {
+					return this;
+				},
+				observer: '_targetChanged'
+			},
+			value: {
+				type: String,
+				observer: '_valueChanged',
+				notify: true
+			},
+			undoObserver: {
+				type: Object,
+				value: function () {
+					var blocked = false;
+
+					var editCommand = Undo.Command.extend(
+						{
+							constructor: function (element, oldValue, newValue) {
+								this.element = element;
+								this.oldValue = oldValue;
+								this.newValue = newValue;
+							},
+							execute: function () {},
+							undo: function () {
+								blocked = true;
+								Polymer.dom(this.element).innerHTML = this.oldValue;
+							},
+							redo: function () {
+								blocked = true;
+								Polymer.dom(this.element).innerHTML = this.newValue;
+							}
+						}
+					);
+
+					return new MutationObserver(
+						function (mutations) {
+							if (blocked) {
+								blocked = false;
+								return;
+							}
+
+              var html = Polymer.dom(this.target).innerHTML || '';
+              var sanitized = this.sanitize(html);
+
+              if (html !== sanitized) {
+                Polymer.dom(this.target).innerHTML = sanitized;
+                return;
+              }
+
+							this.stack.execute(new editCommand(this.target, this.value, sanitized));
+							this.value = sanitized;
+						}.bind(this)
+					);
+				},
+				readOnly: true,
+				observer: '_undoObserverChanged'
+			}
+		},
+		attached: function () {
+			this.observe();
+		},
+		detached: function () {
+			this.disconnect();
+		},
+		ready: function () {
+			this.async(
+				function () {
+					this.stack.commands.pop();
+					this.stack.stackPosition -= 1;
+
+					this.stack.changed = function () {
+						this._setCanUndo(this.stack.canUndo());
+						this._setCanRedo(this.stack.canRedo());
+					}.bind(this);
+
+					this._setCanUndo(this.stack.canUndo());
+					this._setCanRedo(this.stack.canRedo());
+				},
+				500
+			);
+		},
+		clearHistory: function () {
+		  this.stack.commands = [];
+		  this.stack.stackPosition = -1;
+			this._setCanUndo(this.stack.canUndo());
+			this._setCanRedo(this.stack.canRedo());
+		},
+		disconnect: function () {
+			if (!this.undoObserver) return;
+			this.undoObserver.disconnect();
+		},
+		observe: function () {
+			if (!this.undoObserver || !this.target) return;
+			this.undoObserver.observe(
+				this.target,
+				{
+					attributes: true,
+					childList: true,
+					characterData: true,
+					characterDataOldValue: true,
+					subtree: true
+				}
+			);
+		},
+		redo: function () {
+			if (!this.stack.canRedo()) return false;
+			this.stack['redo']();
+			this.value = Polymer.dom(this.target).innerHTML || '';
+			return true;
+		},
+		sanitize: function (html) {
+		  return html;
+		},
+		undo: function () {
+			if (!this.stack.canUndo()) return false;
+			this.stack['undo']();
+			this.value = Polymer.dom(this.target).innerHTML || '';
+			return true;
+		},
+		_targetChanged: function () {
+			this.disconnect();
+			this.observe();
+			Polymer.dom(this.target).innerHTML = this.value;
+		},
+		_undoObserverChanged: function (newObserver, oldObserver) {
+			if (oldObserver) oldObserver.disconnect();
+			this.observe();
+		},
+		_valueChanged: function () {
+		  if (typeof this.value !== 'string') {
+		    this.value = '';
+		    return;
+		  }
+
+			if ((Polymer.dom(this.target).innerHTML || '') !== this.value) Polymer.dom(this.target).innerHTML = this.value;
+		}
+	};
+</script>

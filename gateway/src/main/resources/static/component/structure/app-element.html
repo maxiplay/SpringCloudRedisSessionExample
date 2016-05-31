@@ -1,0 +1,95 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-grid/iron-grid.html">
+
+<link rel="import" href="../../component/page-editor.html">
+<link rel="import" href="../../component/page-my-books.html">
+<link rel="import" href="../../component/page-home.html">
+<link rel="import" href="../../component/page-about.html">
+<link rel="import" href="../../component/page-help.html">
+
+<link rel="import" href="../../component/config/routing.html">
+<link rel="import" href="../../component/config/before-request-interceptor.html">
+<link rel="import" href="../../component/config/after-request-interceptor.html">
+<link rel="import" href="../../component/config/write-api.html">
+
+<link rel="import" href="../theme/global-style.html">
+
+<link rel="import" href="header-toolbar-element.html">
+
+<dom-module id="app-element">
+
+    <style include="global-style">
+
+
+    </style>
+
+    <template>
+
+        <iron-ajax id="ajaxgetUser" auto url="/user" method="GET" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{user}}"  last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+        <paper-header-panel mode="seamed"  tall-class="medium-tall" class="cyan">
+
+            <header-toolbar-element user="{{user}}"></header-toolbar-element>
+
+            <!-- <content></content> -->
+
+            <iron-pages selected="{{route}}" attr-for-selected="route" >
+
+                <section route="home">
+
+                    <page-home></page-home>
+
+                </section>
+
+
+                <section route="myBooks">
+                    <iron-grid >
+                        <page-my-books class="xs10 offset-xs1" user="{{user}}"></page-my-books>
+                    </iron-grid>
+                </section>
+                
+                 <section route="help">
+                    <page-help></page-help>
+                </section>
+                
+                <section route="about">
+                    <page-about></page-about>
+                </section>
+                <section route="account">
+                    account
+                </section>
+            </iron-pages>
+
+            <before-request-interceptor></before-request-interceptor>
+
+            <after-request-interceptor></after-request-interceptor>
+
+        </paper-header-panel>
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "app-element",
+
+            properties : {
+
+                user : {
+
+                    type : Object,
+                    notify : true
+
+                }
+
+            },
+
+
+        });
+
+    </script>
+
+</dom-module>

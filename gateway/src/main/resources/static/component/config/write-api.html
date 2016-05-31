@@ -1,0 +1,120 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+    'use strict';
+    //element singleton
+    //http://www.polymer-project.org/0.5/docs/polymer/polymer.html#global
+    (function() {
+        // this variable is shared by all instances of write-api
+        var allServiceAPI = [];
+
+        function getServiceAPI(nameServiceAPI) {
+
+            var baseUrlServiceAPI;
+
+            if (nameServiceAPI == "gateway") {
+
+                baseUrlServiceAPI = "";
+
+            } else {
+
+                baseUrlServiceAPI = nameServiceAPI;
+            }
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlhttp.status == 200) {
+                        allServiceAPI[nameServiceAPI] = JSON.parse(xmlhttp.responseText);
+                    } else {
+                        console.error('something else other than 200 was returned during request API for ' + nameServiceAPI + ' on url ' + urlServiceAPI);
+                    }
+                }
+            };
+            xmlhttp.open("GET", baseUrlServiceAPI + "/mapping/web", true);
+            xmlhttp.send();
+        }
+
+        //getServiceAPI("gateway");
+        //getServiceAPI("book");
+
+
+        Polymer({
+
+            is : 'write-api',
+
+            attached : function() {
+
+            },
+
+            properties : {
+
+                service : {
+                    type : String,
+                    reflectToAttribute : true,
+
+                },
+
+                action : {
+                    type : String,
+                    reflectToAttribute : true,
+                    notify : true,
+                    observer : 'actionChanged'
+                },
+
+                indexMethod : {
+                    type : Number,
+                    notify : true,
+                    value : 0
+                },
+
+                url : {
+                    type : String,
+                    notify : true,
+                    reflectToAttribute : true
+                },
+
+                method : {
+                    type : String,
+                    notify : true,
+                    reflectToAttribute : true
+                },
+
+                body : {
+                    type : Object,
+                    notify : true
+                }
+
+            },
+
+            actionChanged : function(action, oldValue) {
+
+                if (allServiceAPI[this.service]) {
+
+                    try {
+                        this.url = allServiceAPI[this.service][action].accessURL;
+
+                        if (this.service == "gateway") {
+
+                            this.url = this.url.replace("/gateway", "");
+                        }
+
+                        this.method = allServiceAPI[this.service][action].methodType[this.indexMethod];
+
+                        var requestBody = allServiceAPI[this.service][action].requestBody;
+
+                        if (requestBody != null) {
+                            this.body = requestBody;
+                        }
+
+                    } catch(e) {
+                        console.error(e);
+                        console.error(this.service);
+                        console.error(action);
+
+                    }
+                }
+            }
+        });
+    })(); 
+</script>

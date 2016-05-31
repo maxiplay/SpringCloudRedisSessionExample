@@ -1,0 +1,132 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-datatable/paper-datatable-card.html">
+
+<link rel="import" href="../bower_components/date-util/date-util.html">
+
+<link rel="import" href="../component/book/book-title-element.html">
+<link rel="import" href="../component/theme/global-style.html">
+
+<dom-module id="page-my-books">
+
+    <style include="global-style">
+		host:{
+
+		display :block;
+
+		}
+
+
+    </style>
+
+    <template>
+
+        <paper-card id="books" elevation="2" >
+            <div class="card-content">
+
+                <paper-button raised on-click="createNewBook">
+                    Create a new book<iron-icon icon="icons:add-circle"></iron-icon>
+                </paper-button>
+
+                <iron-ajax id="ajaxCreateNewBook" url="/book" method="POST" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{userBooks}}" last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+                <iron-ajax id="ajaxGetUserBooks" auto url="{{getUserBooksUrl}}" method="GET" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{userBooks}}" last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+                <iron-ajax id="ajaxDeleteBook" url="{{deleteBookUrl}}" method="DELETE" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{userBooks}}" last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+                <paper-datatable data="{{userBooks.content}}">
+                    <paper-datatable-column header="Title" property="title" type="String" editable dialog edit-icon sortable>
+                        <template>
+                            <book-title-element book="{{item}}" title="{{value}}"></book-title-element>
+                        </template>
+                    </paper-datatable-column>
+
+                    <paper-datatable-column header="Resume" property="resume" type="String" editable dialog edit-icon sortable>
+                        <template>
+                            <paper-input value="{{value}}" no-label-float maxlength="200" char-counter></paper-input>
+                        </template>
+                    </paper-datatable-column>
+
+                    <paper-datatable-column header="Creation Date" property="creationDate" type="Number"  sortable>
+                        <template>
+                            <date-util format="H:mm:ss dd/MM/yy"  date="{{getDate(value)}}" ></date-util>
+                        </template>
+                    </paper-datatable-column>
+                    <paper-datatable-column header="Action">
+                        <template>
+
+                            <paper-icon-button id="writeBookButton" icon="icons:create" on-click="editBook"></paper-icon-button>
+
+                            <paper-icon-button id="deleteBookButton" icon="icons:delete" on-click="deleteBook"></paper-icon-button>
+                        </template>
+                    </paper-datatable-column>
+                </paper-datatable>
+
+            </div>
+        </paper-card>
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "page-my-books",
+
+            properties : {
+
+                user : {
+                    type : Object
+                },
+
+                getUserBooksBaseUrl : {
+                    type : String
+                },
+
+                getUserBooksUrl : {
+                    type : String,
+                    computed : 'computeGetUserBooksUrl(user)'
+                },
+
+            },
+            computeGetUserBooksUrl : function(user) {
+
+                var date = new DateUtil();
+
+                return '/book/' + user.login;
+            },
+
+            getDate : function(timestamp) {
+
+                return new Date(timestamp);
+
+            },
+
+            createNewBook : function(event) {
+
+
+                this.$.ajaxCreateNewBook.generateRequest();
+            },
+
+            deleteBook : function(event) {
+
+		
+                this.deleteBookUrl = '/book/' + event.model.item.id;
+                this.$.ajaxDeleteBook.generateRequest();
+
+            },
+
+            editBook : function(event) {
+
+                var bookId = event.model.item.id;
+
+
+                page.show("/editor/" + bookId);
+
+            },
+        });
+    </script>
+
+</dom-module>

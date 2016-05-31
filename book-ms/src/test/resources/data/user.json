@@ -1,0 +1,3 @@
+{"_id" : "566127341a3e8c1fdfd3f0d0", "_class" : "com.writecontrol.common.model.User", "login" : "max3", "password" : "maxmax", "role" : {"title" : "user", "rights" : []}, "books" : ["56b901411a3e2ad973eda7ba"], "theme" : "sky"}
+{ "_id" : "56b1126a754a859c02b13e3e", "_class" : "com.writecontrol.common.model.User", "login" : "manon", "password" : "maxmax", "role" : {"title" : "user", "rights" : []}, "books" : ["book1"], "theme" : "melon"}
+{ "_id" : "56bf77221a0cdb5a3b4acbde", "_class" : "com.writeControl.model.User", "login" : "bookService", "password" : "jd_zie,r?.lojfp^fDJzyz", "role" : {"title" : "user", "rights" : []}}

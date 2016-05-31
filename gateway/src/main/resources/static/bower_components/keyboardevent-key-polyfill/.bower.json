@@ -1,0 +1,14 @@
+{
+  "name": "keyboardevent-key-polyfill",
+  "homepage": "https://github.com/cvan/keyboardevent-key-polyfill",
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "c6203ce1a3009f56ecd209a9da84dee5c1963e06"
+  },
+  "_source": "https://github.com/cvan/keyboardevent-key-polyfill.git",
+  "_target": "*",
+  "_originalSource": "cvan/keyboardevent-key-polyfill"
+}

@@ -1,0 +1,148 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../component/config/write-api.html">
+
+
+<link rel="import" href="connect-dialog.html">
+
+
+<dom-module id="auth-menu-button">
+
+    <style>
+        paper-menu-button, paper-button {
+
+        width: 100%;
+        text-transform: none;
+        }
+
+        circle-image-element {
+
+        float: left;
+        }
+
+        #pseudo {
+
+
+        display: block;
+        margin: 10px;
+        }
+
+        #connectDialog{
+
+        position : absolute;
+
+        }
+
+     
+    </style>
+
+    <template>
+
+        <paper-menu-button vertical-align="top" vertical-offset="65" horizontal-offset="11">
+
+            <paper-button raised class="dropdown-trigger" on-click="openConnectDialog" >
+
+                <template is="dom-if" if="{{isAuthenticated}}">
+
+                  
+                    <span  id="pseudo">{{user.login}}</span>
+
+                </template>
+                <template is="dom-if" if="{{!isAuthenticated}}">
+
+                    Connexion
+
+                </template>
+
+            </paper-button>
+
+            <template is="dom-if" if="{{isAuthenticated}}">
+
+                <paper-menu class="dropdown-content" selectable=".selectable">
+
+                    <paper-item  on-click="logout" >
+                        Logout
+                    </paper-item >
+                    
+
+                </paper-menu>
+
+            </template>
+
+           
+            <iron-ajax id="ajaxLogout" url="/clogout" method="POST" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{logoutResponse}}"   last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+        </paper-menu-button>
+
+        <connect-dialog id="connectDialog" ></connect-dialog>
+        
+       
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "auth-menu-button",
+
+            properties : {
+
+                logoutResponse : {
+
+                    type : Object,
+                    observer : 'onLogoutResponseChanged'
+
+                },
+
+                isAuthenticated : {
+
+                    type : Boolean,
+                    computed : 'computeIsAuthenticated(user)'
+
+                }
+
+            },
+
+            openConnectDialog : function(e) {
+
+                if (!(this.user && this.isAuthenticated)) {
+                    this.$$("#connectDialog").open();
+                }
+
+            },
+  
+
+            logout : function(e) {
+				var token = localStorage.getItem('jwtToken');
+	             if (token) {
+	             	localStorage.removeItem('jwtToken');
+	             	location.reload();
+	             } else {
+                	this.$.ajaxLogout.generateRequest();
+                }
+            },
+
+            onLogoutResponseChanged : function(response) {
+
+                // similar behavior as an HTTP redirect
+                window.location.replace("/");
+            },
+
+            computeIsAuthenticated : function(user) {
+
+                if (user != null && user != undefined) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
+            }
+        });
+    </script>
+
+</dom-module>

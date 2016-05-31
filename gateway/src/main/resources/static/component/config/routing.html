@@ -1,0 +1,53 @@
+<script src="/bower_components/page/page.js"></script>
+
+<script>
+    window.addEventListener("WebComponentsReady", function() {
+
+        var app = document.querySelector("#app");
+
+        page('/', home);
+        page('/editor/:bookId', editor);
+        page('/myBooks', myBooks);
+        page('/help', help);
+        page('/about', about);
+        page('/account', account);
+
+        page({
+            hashbang : true
+        });
+
+        function home() {
+            app.route = 'home';
+        }
+
+        function editor(ctx) {
+
+            app.bookId = ctx.params.bookId;
+            app.route = 'editor';
+        }
+
+        function myBooks() {
+
+            if (app.user == null) {
+                console.log(app.user);
+                console.log("need authenticate");
+            }
+
+            app.route = 'myBooks';
+        }
+        
+        function help() {
+            app.route = 'help';
+        }
+
+        function about() {
+            app.route = 'about';
+        }
+
+        function account() {
+            app.route = 'account';
+        }
+
+    });
+
+</script>

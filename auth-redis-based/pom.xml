@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.worldline.springcloudarchetype</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>auth-redis-based</artifactId>
+	<groupId>com.worldline.springcloudarchetype</groupId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>auth-redis-based</name>
+	<description>auth-redis-based</description>
+
+	<properties>
+		<user-data-version>0.0.1-SNAPSHOT</user-data-version>
+	</properties>
+
+	<dependencies>
+		<!-- Spring session -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+		</dependency>
+		
+		<!-- Redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
+		
+		<!-- Spring security -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-security</artifactId>
+		</dependency>
+
+		<!-- User data model -->
+		<dependency>
+			<groupId>com.worldline.springcloudarchetype</groupId>
+			<artifactId>user-data-model</artifactId>
+			<version>${user-data-version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

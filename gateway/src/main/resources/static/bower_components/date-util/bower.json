@@ -1,0 +1,25 @@
+{
+  "name": "date-util",
+  "version": "0.5.0",
+  "homepage": "https://github.com/jrtnq514/date-util",
+  "authors": [
+    "Josh Taylor"
+  ],
+  "description": "Date formatter element for Polymer",
+  "main": "date-util.html",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "date",
+    "time",
+    "format"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,89 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="/bower_components/iron-grid/iron-grid.html">
+<link rel="import" href="/bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="/component/config/routing.html">
+<link rel="import" href="/component/authentication/auth-menu-button.html">
+<link rel="import" href="/component/authentication/registration-menu-button.html">
+
+<dom-module id="header-toolbar-element">
+
+    <style>
+    
+    paper-toolbar{
+    
+       background: #c2cd23;
+ 
+    }
+    
+		.aligner {
+
+			align-items: center;
+		}
+
+		.headerTitle {
+
+			font-size: 18px;
+		}
+
+                   a {
+            /*color: var(--secondary-text-color);*/
+                 color:inherit;
+                text-decoration: none;
+        };
+
+    </style>
+
+    <template>
+
+        <paper-toolbar>
+
+            <iron-grid xs-max-width="400" s-max-width="600" m-max-width="900" l-max-width="1150" >
+                <div class="xs12">
+
+                    <div class="xs2">
+                       
+                       <h3>Spring Cloud Worldline Archetype</h1> 
+                    </div>
+                    <div  class="xs2 aligner">
+                        <a  href="/"> <span class="headerTitle"> Home</span> </a>
+                    </div>
+                    <div  class="xs2 aligner">
+                        <template is="dom-if" if="{{user}}">
+
+                        <a  href="/myBooks"><h4>My Books</h4></a>
+                            <!-- <a  href="/myBooks"> <span class="headerTitle">My Books</span></a> -->
+
+                        </template>
+
+                    </div>
+                    
+                     <div  class="xs2 aligner">
+                        <a  href="/help"> <span class="headerTitle"> Help</span> </a>
+                    </div>
+
+                    <div  class="xs2 aligner">
+                        <a  href="/about"> <span class="headerTitle">About</span></a>
+                    </div>
+
+<!--                     <registration-menu-button user="{{user}}" class="xs2 aligner"></registration-menu-button> -->
+
+                    <auth-menu-button user="{{user}}" class="xs2 aligner"></auth-menu-button>
+
+                 
+
+                </div>
+            </iron-grid>
+        </paper-toolbar>
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "header-toolbar-element",
+
+        });
+    </script>
+
+</dom-module>

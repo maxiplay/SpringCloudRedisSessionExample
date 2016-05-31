@@ -1,0 +1,26 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<script>
+    Polymer({
+        is : "after-request-interceptor"
+    });
+
+    (function(open) {
+
+        XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+            this.addEventListener("readystatechange", function() {
+                if(this.readyState == 4){
+                	if (this.status == 401 && this.response.errorCode == 'InvalidToken') {
+	                    console.log("Invalid token");
+	                    localStorage.removeItem('jwtToken');
+	             		location.reload();
+                    }
+                }
+            }, false);
+
+            open.call(this, method, url, async, user, pass);
+        };
+
+    })(XMLHttpRequest.prototype.open);
+
+</script>

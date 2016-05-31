@@ -1,0 +1,17 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="behavior.html">
+<dom-module id="selection-mgr">
+	<template>
+		<content id="content"></content>
+	</template>
+	<script>
+		Polymer(
+			{
+				is: 'selection-mgr',
+				behaviors: [
+					SelectionMgrBehavior
+				]
+			}
+		);
+	</script>
+</dom-module>

@@ -1,0 +1,32 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<script>
+    Polymer({
+        is : "before-request-interceptor"
+    });
+
+    (function(send) {
+
+        XMLHttpRequest.prototype.send = function(data) {
+
+            // in this case I'm injecting an access token (eg. accessToken) in the request headers before it gets sent
+            // if(accessToken) this.setRequestHeader('x-access-token', "accessToken");
+            // console.log(this.token);
+
+            var xsrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+               // console.log(this.getRequestHeader());
+
+
+             this.setRequestHeader("X-XSRF-TOKEN", xsrfToken);
+             
+             var token = localStorage.getItem('jwtToken');
+             if (token) {
+             	this.setRequestHeader("x-auth-token", token);
+             }
+
+            send.call(this, data);
+
+        };
+
+    })(XMLHttpRequest.prototype.send); 
+</script>

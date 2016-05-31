@@ -1,0 +1,285 @@
+<script src="../keyboardevent-key-polyfill/index.js"></script>
+<script src="../selectionchange-polyfill/selectionchange.js"></script>
+<script>
+  keyboardeventKeyPolyfill.polyfill();
+  selectionchange.start();
+
+	SelectionMgrBehavior = {
+		properties: {
+			anchorNode: {
+				type: Object,
+				readOnly: true,
+				notify: true
+			},
+			anchorOffset: {
+				type: Number,
+				readOnly: true,
+				notify: true
+			},
+			baseNode: {
+				type: Object,
+				readOnly: true,
+				notify: true
+			},
+			baseOffset: {
+				type: Number,
+				readOnly: true,
+				notify: true
+			},
+			extentNode: {
+				type: Object,
+				readOnly: true,
+				notify: true
+			},
+			extentOffset: {
+				type: Number,
+				readOnly: true,
+				notify: true
+			},
+			focusNode: {
+				type: Object,
+				readOnly: true,
+				notify: true
+			},
+			focusOffset: {
+				type: Number,
+				readOnly: true,
+				notify: true
+			},
+			isCollapsed: {
+				type: Boolean,
+				readOnly: true,
+				notify: true
+			},
+			rangeCount: {
+				type: Number,
+				readOnly: true,
+				notify: true
+			},
+			type: {
+				type: String,
+				readOnly: true,
+				notify: true
+			},
+			range0: {
+				type: Object,
+				readOnly: true,
+				notify: true
+			},
+			selectedImage: {
+			  type: Object,
+			  value: null,
+			  readOnly: true,
+			  notify: true
+			},
+			selectedLink: {
+				type: Object,
+			  value: null,
+				readOnly: true,
+				notify: true
+			},
+			target: {
+				type: Object,
+				value: function () {
+					return this;
+				},
+				observer: '_targetChanged'
+			},
+			commonAncestorPath: {
+				type: Array,
+				value: null,
+				readOnly: true,
+				notify: true
+			},
+			selectionObserver: {
+				type: Object,
+				value: function () {
+					return new MutationObserver(
+						function (mutations) {
+							this.async(
+								function () {
+									this.updateSelection();
+								},
+								10
+							);
+						}.bind(this)
+					);
+				},
+				readOnly: true,
+				observer: '_selectionObserverChanged'
+			}
+		},
+		listeners: {
+			keydown: '_keydown'
+		},
+		observe: function () {
+			if (!this.selectionObserver || !this.target) return;
+			this.selectionObserver.observe(
+				this.target,
+				{
+					attributes: true,
+					childList: true,
+					characterData: true,
+					characterDataOldValue: true,
+					subtree: true
+				}
+			);
+		},
+		disconnect: function () {
+			if (!this.selectionObserver) return;
+			this.selectionObserver.disconnect();
+		},
+		attached: function () {
+			this.observe();
+		},
+		detached: function () {
+			this.disconnect();
+		},
+		ready: function () {
+			//Text selection
+      document.addEventListener(
+        'selectionchange',
+        function (event) {
+          this.async(
+            function () {
+              this.updateSelection(event)
+            },
+            10
+          );
+        }.bind(this)
+      );
+
+      //Image selection
+      document.addEventListener(
+        'click',
+        function (event) {
+          var target = Polymer.dom(event).rootTarget;
+  				if (!this.target.contains(target)) return;
+  				var selectedImage = this.selectedImage;
+  
+          if (target.tagName === 'IMG') {
+            if (target.parentNode.tagName !== 'A') {
+              this._setSelectedImage(target);
+              this._setSelectedLink(null);
+            }
+  
+            var selection = this.getSelection();
+            selection.removeAllRanges();
+            var range = document.createRange();
+            range.selectNode(target);
+            selection.addRange(range);
+            this._setRange0(range);
+          } else {
+            this._setSelectedImage(null);
+          }
+  
+          if (selectedImage !== this.selectedImage) {
+    				this.async(
+    					function () {
+    					  this.updateSelection(event);
+    					},
+    					10
+    				);
+          }
+        }.bind(this)
+      );
+		},
+		getSelection: function () {
+			if (this.shadowRoot) return this.shadowRoot.getSelection();
+			return window.getSelection();
+		},
+		restoreSelection: function (event) {
+			var selection = this.getSelection();
+			selection.removeAllRanges();
+
+      if (this.selectedImage && !this.target.contains(this.selectedImage)) this._setSelectedImage(null);
+
+			if (this.selectedImage) {
+			  var range = document.createRange();
+			  range.selectNode(this.selectedImage);
+			  this._setRange0(range);
+			}
+
+			if (this.range0 && this.target.contains(this.range0.commonAncestorContainer)) selection.addRange(this.range0);
+			this.async(this.updateSelection, 10);
+		},
+		selectElement: function (element) {
+			if (!this.target.contains(element)) return;
+			var selection = this.getSelection();
+			selection.removeAllRanges();
+			var range = document.createRange();
+
+			if (element.tagName === 'IMG') {
+			  range.selectNode(element);
+			  this._setSelectedImage(element);
+			  this._setSelectedLink(null);
+			} else {
+			  range.selectNodeContents(element);
+			}
+
+			selection.addRange(range);
+			this.async(this.updateSelection, 10);
+		},
+		selectAll: function () {
+			var selection = this.getSelection();
+			selection.removeAllRanges();
+			var range = document.createRange();
+			range.selectNodeContents(this.target);
+			selection.addRange(range);
+			this.async(this.updateSelection, 10);
+		},
+		updateSelection: function (event) {
+			var selection = this.getSelection();
+
+			if (selection.anchorNode && this.target.contains(selection.anchorNode.nodeType === 1 ? selection.anchorNode : selection.anchorNode.parentNode)) {
+				this._setAnchorNode(selection.anchorNode);
+				this._setAnchorOffset(selection.anchorOffset);
+				this._setBaseNode(selection.baseNode);
+				this._setBaseOffset(selection.baseOffset);
+				this._setExtentNode(selection.extentNode);
+				this._setExtentOffset(selection.extentOffset);
+				this._setFocusNode(selection.focusNode);
+				this._setFocusOffset(selection.focusOffset);
+				this._setIsCollapsed(selection.isCollapsed);
+				this._setRangeCount(selection.rangeCount);
+				this._setType(selection.type);
+				var range0 = this.range0;
+				this._setRange0(selection.rangeCount ? selection.getRangeAt(0) : null);
+
+				var path = null, selectedLink = null;
+
+				if (this.range0) {
+					var element = this.range0.commonAncestorContainer;
+					var path = [];
+
+					while (this.target.contains(element)) {
+						path.push(element);
+						if (!selectedLink && element.tagName === 'A') selectedLink = element;
+						element = element.parentNode;
+					}
+
+					this._setCommonAncestorPath(path);
+				}
+
+				this._setSelectedLink(selectedLink);
+				if (this.selectedLink) this._setSelectedImage(null);
+			}
+
+      if (this.selectedImage && !this.target.contains(this.selectedImage)) this._setSelectedImage(null);
+		},
+		_selectionObserverChanged: function (newObserver, oldObserver) {
+			if (oldObserver) oldObserver.disconnect();
+			this.observe();
+		},
+		_keydown: function (event) {
+			//Don't allow deletion of the last paragraph element
+			if (event.key === 'Backspace' && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && Polymer.dom(this.target).textContent === '' && Polymer.dom(this.target).querySelectorAll('p').length <= 1) event.preventDefault();
+			//Allow input without alt, ctrl, or meta
+			if (!event.altKey && !event.ctrlKey && !event.metaKey) return;
+			//Allow select all, refresh, print, paste, copy, cut
+			if (!event.altKey && !event.shiftKey && ['a', 'r', 'p', 'v', 'c', 'x'].indexOf(event.key) >= 0 && (event.ctrlKey || event.metaKey)) return;
+			event.preventDefault();
+		},
+		_targetChanged: function () {}
+	};
+</script>

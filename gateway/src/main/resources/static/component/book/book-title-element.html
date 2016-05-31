@@ -1,0 +1,74 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/iron-a11y-keys/iron-a11y-keys.html">
+
+<link rel="import" href="/component/config/write-api.html">
+
+<dom-module id="book-title-element">
+
+    <style>
+    </style>
+
+    <template>
+
+        <write-api service="book" action="updateBookTitle" method="{{updateBookTitleMethod}}" url="{{updateBookTitleBaseUrl}}"></write-api>
+        <iron-ajax id="ajaxUpdateBookTitle" url="{{updateBookTitleUrl}}" method="{{updateBookTitleMethod}}" body="{{updateBookTitleBody}}" content-type="application/json" loading="{{loading}}" handle-as="json" last-response="{{book}}" last-error="{{lastError}}" debounce-duration="300" ></iron-ajax>
+
+        <iron-a11y-keys
+        id="key"
+        keys="enter"
+        target="[[keyTarget]]"
+        on-keys-pressed="onInputEnterPress"></iron-a11y-keys>
+
+        <paper-input id ="bookTitleInput" value="{{inputValue}}" no-label-float maxlength="40" char-counter></paper-input>
+
+    </template>
+
+    <script>
+        Polymer({
+            is : "book-title-element",
+
+            properties : {
+
+                book : {
+
+                    type : Object,
+                    notify : true,
+                    observer : 'onBookChanged'
+                },
+
+                title : {
+
+                    type : Object,
+                    notify : true
+                },
+
+            },
+
+            keyTarget : {
+                type : Object,
+                value : function() {
+                    return this.$.bookTitleInput.inputElement;
+                }
+            },
+
+            onBookChanged : function(book) {
+
+                this.inputValue = book.title;
+                this.title = book.title;
+
+            },
+
+            onInputEnterPress : function(event) {
+
+                this.updateBookTitleUrl = this.updateBookTitleBaseUrl.replace("{bookId}", this.book.id);
+
+                this.updateBookTitleBody = this.inputValue;
+
+                this.$.ajaxUpdateBookTitle.generateRequest();
+            },
+        });
+    </script>
+
+</dom-module>

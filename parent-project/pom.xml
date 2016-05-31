@@ -1,0 +1,126 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.worldline.springcloudarchetype</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+	<name>parent</name>
+	<description>parent</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud-version>Brixton.RC1</spring-cloud-version>
+		<maven-compiler-plugin-version>2.3.1</maven-compiler-plugin-version>
+		<java-melody-version>1.57.0</java-melody-version>
+		<asciidoctor-plugin-version>1.5.3</asciidoctor-plugin-version>
+		<asciidoctor-pdf-plugin-version>1.5.0-alpha.11</asciidoctor-pdf-plugin-version>
+		<jruby-version>1.7.21</jruby-version>
+
+		<!-- Maven extra configuration for release -->
+		<maven.site.skip>true</maven.site.skip>
+		<maven.site.deploy.skip>true</maven.site.deploy.skip>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring Cloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-parent</artifactId>
+				<version>${spring-cloud-version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- Common dependencies -->
+	<dependencies>
+		<!-- Spring boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Eureka -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+
+		<!-- Java melody -->
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>${java-melody-version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Java version -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin-version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+				<!-- Spring boot maven plugin -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<!-- Maven test -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+
+	<repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>http://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
