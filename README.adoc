@@ -76,4 +76,4 @@ login: max3, password : maxmax
 
 The webapp contained in the gateway is able to list books from the book-ms microservice clicking to the link "My Books"
 
-IMPORTANT: If Redis shared session works fine, you should have the list of books displayed. If not, verify the ajax request to get book (401 error if Redis shared session does not work)
+IMPORTANT: If Redis shared session works fine, you should have the list of books displayed. If not, verify the ajax request to get book (401 error if Redis shared session does not work. At first loading retry with F5, hystrix can trigger a timeout if the request takes too long time due to the startup)
