@@ -6,7 +6,7 @@ Spring cloud Redis Session Example
 |may-2016|1.0|M. Dhalluin|Init
 |========================================
 
-IMPORTANT: The using Spring Cloud version for this project is *Brixton.M4*
+IMPORTANT: The using Spring Cloud version for this project is *Brixton.RELEASE*
 
 Introduction
 ------------
