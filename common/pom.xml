@@ -53,6 +53,12 @@
 			<version>${auth-redis-based-version}</version>
 		</dependency>
 
+		<!-- Spring security oauth2 -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+
 
 		<!-- Swagger -->
 		<dependency>

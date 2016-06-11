@@ -39,6 +39,12 @@
 			<artifactId>spring-cloud-security</artifactId>
 		</dependency>
 
+		<!-- Spring security oauth2 -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+
 		<!-- User data model -->
 		<dependency>
 			<groupId>com.springcloud.sessionexample</groupId>

@@ -43,9 +43,9 @@
             <div>
                 <h2>Connexion</h2>
 
-                <!--<a id="facebookLink" href="/login/facebook"> <iron-image height="50" width="200" sizing="cover"  src="/img/fbconnect.png" ></iron-image> </a>
+                 <a id="facebookLink" href="/login/facebook"> <iron-image height="50" width="200" sizing="cover"  src="/img/fbconnect.png" ></iron-image> </a>
 
-                <a href="/login/github"> <iron-image height="50" width="200" sizing="cover" src="/img/github-banner.png" ></iron-image> </a>-->
+
 
                 <iron-ajax id="ajaxLogin" url="/login" method="POST" body ="{{loginBody}}" content-type="application/x-www-form-urlencoded" loading="{{loading}}" handle-as="json" on-response="handleResponse" on-error="handleError" debounce-duration="300" ></iron-ajax>
 
